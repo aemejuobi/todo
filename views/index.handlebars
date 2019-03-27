@@ -1,8 +1,23 @@
-<div class="container">
-    <h1>{{ header }}</h1>
-    <form>
-        <input type="text" name="todo">
-        <button type="submit">Submit</button>
-    </form>    
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">{{ header }}</h1>
+    <p class="lead">One item at a time</p>
+  </div>
 </div>
+
+<div class="container">
+
+    <form>
+        <div class="form-group">
+            <label for="item">Things To Do</label>
+            <input class="form-control form-control-lg" type="text" id="item" name="item">
+        </div>
+        <button type="submit" class="btn btn-primary" id="add">Add</button>
+    </form>
+    <br>
+
+    <ul class="list-group" id="listItems">
+    </ul>
+</div>
+
 

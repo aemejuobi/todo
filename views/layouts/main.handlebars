@@ -11,6 +11,34 @@
 <body>
     {{{body}}}
 </body>
+
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="../../public/assets/js/todo.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+<script>
+  $(document).ready(function(){
+    
+    // Send a get request to the database to get all the items
+    axios.get("/api/todo").then(function(response){
+        // Loop through the database, and display all the items on the webpage 
+      response.data.forEach(function(item){
+          $("#listItems").append(`<li class="list-group-item"> ${item.text}</li>`);
+      });
+    });
+
+    // When the 'Add' button is clicked, an ajax call is sent to the /api/todo route as a post request to store the input val in the database
+    $("#add").on("click", function(event){
+      event.preventDefault();
+      axios.post("/api/todo", {
+        text: $("#item").val().trim()
+      }).then(function(response){
+          $("#listItems").append(`<li class="list-group-item"> ${response.data.text}</li>`);
+      });
+
+    });
+    
+    // Create the update and delete events
+  });
+</script>
 </html>
