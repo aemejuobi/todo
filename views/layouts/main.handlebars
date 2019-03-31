@@ -23,7 +23,7 @@
     axios.get("/api/todo").then(function(response){
         // Loop through the database, and display all the items on the webpage 
       response.data.forEach(function(item){
-          $("#listItems").append(`<li class="list-group-item"> ${item.text}</li>`);
+          $("#listItems").append(`<li class="list-group-item"><button type="button" class="btn btn-secondary btn-sm btn btn-danger" id="delete">X</button> ${item.text}</li>`);
       });
     });
 
@@ -33,12 +33,19 @@
       axios.post("/api/todo", {
         text: $("#item").val().trim()
       }).then(function(response){
-          $("#listItems").append(`<li class="list-group-item"> ${response.data.text}</li>`);
+          $("#listItems").append(`<li class="list-group-item"><button type="button" class="btn btn-secondary btn-sm btn btn-danger" id="delete">X</button> ${response.data.text}</li>`);
       });
-
     });
     
-    // Create the update and delete events
+    // Create the delete event
+    $("#delete").on("click", function(response){
+      console.log(response.data);
+      axios.delete("/api/todo/" + id).then(function(){
+        console.log(response.data);
+        window.location.href = "/";
+      });
+    });
+    
   });
 </script>
 </html>
