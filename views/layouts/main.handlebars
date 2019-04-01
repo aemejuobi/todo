@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ title }}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/styles.css">
 
 </head>
 <body>
@@ -17,35 +18,48 @@
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 <script>
-  $(document).ready(function(){
     
-    // Send a get request to the database to get all the items
+  // function that sends a GET request to the database to get all the items
+  function displayItems(){
     axios.get("/api/todo").then(function(response){
-        // Loop through the database, and display all the items on the webpage 
+      // Loop through the database, and display all the items on the webpage
       response.data.forEach(function(item){
-          $("#listItems").append(`<li class="list-group-item"><button type="button" class="btn btn-secondary btn-sm btn btn-danger" id="delete">X</button> ${item.text}</li>`);
+        $("#listItems").append(`<li class="list-group-item"><button type="button" class="btn btn-secondary btn-sm btn btn-danger delete" id="${item.id}">X</button> ${item.text}</li>`);
       });
+      deleteTodo();
     });
+  }
+  displayItems();
+  
+  
+  // When the 'Add' button is clicked, an ajax call is sent to the /api/todo route as a post request to store the input val in the database
+  $("#add").on("click", function(event){
+    event.preventDefault();
+    axios.post("/api/todo", {
+      text: $("#item").val().trim()
+    }).then(function(response){
+      $("#item").val("");
+      var li = `<li class="list-group-item"><button type="button" class="btn btn-secondary btn-sm btn btn-danger delete" id="${response.data.id}">X</button> ${response.data.text}</li>`;
 
-    // When the 'Add' button is clicked, an ajax call is sent to the /api/todo route as a post request to store the input val in the database
-    $("#add").on("click", function(event){
-      event.preventDefault();
-      axios.post("/api/todo", {
-        text: $("#item").val().trim()
-      }).then(function(response){
-          $("#listItems").append(`<li class="list-group-item"><button type="button" class="btn btn-secondary btn-sm btn btn-danger" id="delete">X</button> ${response.data.text}</li>`);
-      });
+        $("#listItems").append(li);
+        console.log(response.data.id);
+      //displayItems();
+      deleteTodo();
     });
-    
-    // Create the delete event
-    $("#delete").on("click", function(response){
-      console.log(response.data);
-      axios.delete("/api/todo/" + id).then(function(){
-        console.log(response.data);
-        window.location.href = "/";
-      });
-    });
-    
   });
+  
+  // Create the delete event
+  function deleteTodo(){
+    $(".delete").on("click", function(){
+      event.stopPropagation();
+      var id = $(this).attr("id");
+      axios.delete("/api/todo/" + id).then(function(response){
+        console.log(response);
+        window.location.href = "/";
+        displayItems();
+      });
+    });
+  }
+    
 </script>
 </html>

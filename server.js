@@ -14,7 +14,7 @@ var htmlRoutes = require("./routes/htmlRoutes");
 // Middleware
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static("public"));
 
 // Handlebars
 app.engine("handlebars", exhb({defaultLayout: "main"}));
