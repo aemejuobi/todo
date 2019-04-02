@@ -35,15 +35,15 @@
   // When the 'Add' button is clicked, an ajax call is sent to the /api/todo route as a post request to store the input val in the database
   $("#add").on("click", function(event){
     event.preventDefault();
+
     axios.post("/api/todo", {
       text: $("#item").val().trim()
     }).then(function(response){
       $("#item").val("");
+      
       var li = `<li class="list-group-item"><button type="button" class="btn btn-secondary btn-sm btn btn-danger delete" id="${response.data.id}">X</button> ${response.data.text}</li>`;
 
-        $("#listItems").append(li);
-        console.log(response.data.id);
-      //displayItems();
+      $("#listItems").append(li);
       deleteTodo();
     });
   });

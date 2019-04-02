@@ -1,0 +1,32 @@
+body{
+    background-color: rgb(155, 150, 150);
+}
+
+#add{
+    background-color: rgb(27, 202, 27);
+    font-size: 1em;
+    font-weight: bold;
+    letter-spacing: 2px;
+    color: black;
+}
+
+label{
+    font-size: 1.5em;
+    font-weight: bold;
+    color: black;
+}
+
+#item{
+    font-weight: bold;
+}
+
+.delete{
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.list-group-item{
+    padding: 5px 4px 5px 4px;
+    font-weight: bold;
+    font-size: 1.2em;
+}
